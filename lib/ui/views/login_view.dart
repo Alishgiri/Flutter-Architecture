@@ -15,14 +15,12 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<LoginModel>(
-      create: (context) => locator<LoginModel>(),
+    return ChangeNotifierProvider<LoginModel>.value(
+      value: locator<LoginModel>(),
       child: Consumer<LoginModel>(
         builder: (context, model, child) => Scaffold(
           body: Column(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               LoginHeader(controller: _controller),
               model.state == ViewState.Busy
@@ -32,7 +30,9 @@ class _LoginViewState extends State<LoginView> {
                       onPressed: () async {
                         final loginSuccess =
                             await model.login(_controller.text);
-                        if (loginSuccess) {}
+                        if (loginSuccess) {
+                          Navigator.pushNamed(context, '/home');
+                        }
                       },
                     )
             ],
